@@ -1,4 +1,4 @@
-.PHONY: help convert clean
+.PHONY: help convert
 
 # Default target
 .DEFAULT_GOAL := help
@@ -15,7 +15,6 @@ help:
 	@echo "Makefile targets for cfm_voice:"
 	@echo ""
 	@echo "  make convert    Convert all .wav sources to .mp3 (ffmpeg)"
-	@echo "  make clean      Remove generated .mp3 files"
 	@echo "  make help       Display this help message"
 	@echo ""
 	@echo "Environment variables:"
@@ -30,9 +29,3 @@ convert: $(MP3_FILES)
 	@echo "Converting $< -> $@..."
 	@$(FFMPEG) -y -loglevel error -i $< -codec:a libmp3lame -qscale:a $(MP3_QUALITY) $@
 	@echo "✓ Built: $@"
-
-# Clean target
-clean:
-	@echo "Removing generated mp3 files..."
-	@rm -f $(MP3_FILES)
-	@echo "✓ Clean complete"

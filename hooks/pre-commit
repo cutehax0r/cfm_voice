@@ -1,0 +1,15 @@
+#!/bin/sh
+# Blocks commits that include .wav files. Run `make convert` and commit the
+# resulting .mp3 instead — WoW's sound API doesn't support .wav anyway.
+
+wav_files=$(git diff --cached --name-only --diff-filter=ACM | grep -i '\.wav$')
+
+if [ -n "$wav_files" ]; then
+	echo "error: refusing to commit .wav file(s):" >&2
+	echo "$wav_files" | sed 's/^/  /' >&2
+	echo "" >&2
+	echo "Run 'make convert' and commit the generated .mp3 instead." >&2
+	exit 1
+fi
+
+exit 0

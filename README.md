@@ -24,10 +24,18 @@ personal project, not a public release.
 
 ## Development
 
-1. Add new audio files to the appropriate voice pack folder.
-2. Reference them from the Lua file that registers media with LibSharedMedia.
-3. Bump the version in `cfm_voice.toc`.
-4. Pull the updates in-game.
+After cloning, point git at the repo's tracked hooks so you don't accidentally commit `.wav`
+files (WoW's sound API only accepts `.mp3` and `.ogg`):
+
+```
+git config core.hooksPath hooks
+```
+
+1. Add new audio files (`.wav`) to the appropriate voice pack folder.
+2. Run `make convert` to generate `.mp3` files via ffmpeg.
+3. Reference the `.mp3` files from the Lua file that registers media with LibSharedMedia.
+4. Bump the version in `cfm_voice.toc`.
+5. Pull the updates in-game.
 
 ## Voice Packs
 
