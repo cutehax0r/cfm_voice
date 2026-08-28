@@ -24,6 +24,13 @@ personal project, not a public release.
 
 ## Development
 
+### Dependencies
+
+- [ffmpeg](https://ffmpeg.org/) — used by `make convert` to transcode `.wav` sources to `.mp3`.
+- [awk](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/awk.html) — used by
+  `scripts/update-sounds.sh` and `make update` to generate Lua tables and bump the TOC version.
+  Any POSIX awk works (the `awk` that ships with macOS/Linux); no GNU-specific features are used.
+
 After cloning, point git at the repo's tracked hooks so you don't accidentally commit `.wav`
 files (WoW's sound API only accepts `.mp3` and `.ogg`):
 
@@ -31,11 +38,31 @@ files (WoW's sound API only accepts `.mp3` and `.ogg`):
 git config core.hooksPath hooks
 ```
 
-1. Add new audio files (`.wav`) to the appropriate voice pack folder.
-2. Run `make convert` to generate `.mp3` files via ffmpeg.
-3. Reference the `.mp3` files from the Lua file that registers media with LibSharedMedia.
-4. Bump the version in `cfm_voice.toc`.
-5. Pull the updates in-game.
+1. Add new audio files (`.wav`) to a voice pack folder — an existing one, or a brand-new
+   directory to start a new pack. Adding sounds to an existing pack requires no other changes.
+2. Run `make update`. This converts every `.wav` to `.mp3` (deleting the `.wav` source once
+   converted), regenerates each voice pack's Lua registration table and `cfm_voice.toc`'s file
+   list, and bumps the TOC patch version if anything actually changed.
+3. Pull the updates in-game.
+
+### Makefile
+
+Run `make help` to list targets:
+
+- `make convert` — convert every `.wav` under a voice pack folder to `.mp3`, then delete the
+  source `.wav`. Pass `NO_PURGE=1` to keep the `.wav` files instead (e.g. `make convert
+  NO_PURGE=1`).
+- `make sounds` — `make convert`, then regenerate voice pack Lua/TOC registration
+  (`scripts/update-sounds.sh`).
+- `make update` — `make convert` + `make sounds`, then bump `cfm_voice.toc`'s patch version
+  (`## Version: X.Y.Z` → `X.Y.(Z+1)`) if anything in `*.mp3`, `*.lua`, or the TOC actually
+  changed. This is the normal workflow after adding audio.
+
+Only `.mp3` files (and the generated `.lua` files) are committed — `.wav` sources are gitignored,
+purged by `make convert`, and blocked from being committed by the pre-commit hook above. Since
+`.wav` masters aren't kept anywhere (not in git, deleted from disk after conversion), treat the
+conversion step as final — if you need to re-encode, do it before running `make convert` /
+`make update`.
 
 ## Voice Packs
 

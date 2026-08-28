@@ -2,7 +2,11 @@
 ## Title: CFM Voice
 ## Notes: Voice alerts for raid addons (BigWigs, Northern Sky Raid Tools, Deadly Boss Mods).
 ## Author: cutehaX0r
-## Version: 0.1.0
+## Version: 0.1.1
 ## X-License: All Rights Reserved
 
 CFM_Voice.lua
+
+# BEGIN AUTO-GENERATED VOICE PACKS (scripts/update-sounds.sh)
+vivian\Vivian.lua
+# END AUTO-GENERATED VOICE PACKS
