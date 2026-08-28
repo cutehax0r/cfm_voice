@@ -67,6 +67,7 @@ for dir in "${pack_dirs[@]}"; do
 		done
 		echo "})"
 	} > "$lua_file"
+	chmod 644 "$lua_file"
 
 	echo "✓ Wrote $lua_file (${#mp3_files[@]} sound(s))"
 
