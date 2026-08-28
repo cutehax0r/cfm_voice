@@ -62,6 +62,8 @@ Run `make help` to list targets:
   publishes it as a GitHub release via `gh`. `make release v1.0.0 DRY` previews the steps
   without changing anything. Requires a clean working tree on `main` and a `vX.Y.Z` version
   that isn't already tagged.
+- `make version` — print the version currently set in `cfm_voice.toc`.
+- `make clean` — remove the `dist/` directory (release zips built by `make release`).
 
 Only `.mp3` files (and the generated `.lua` files) are committed — `.wav` sources are gitignored,
 purged by `make convert`, and blocked from being committed by the pre-commit hook above. Since

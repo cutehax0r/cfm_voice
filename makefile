@@ -1,4 +1,4 @@
-.PHONY: help convert sounds update release
+.PHONY: help convert sounds update release version clean
 
 # Default target
 .DEFAULT_GOAL := help
@@ -22,6 +22,8 @@ help:
 	@echo "                  if anything changed"
 	@echo "  make release VERSION [DRY]"
 	@echo "                  Tag a release, build a zip, and publish it to GitHub"
+	@echo "  make version    Print the version currently set in the TOC"
+	@echo "  make clean      Remove the dist/ directory"
 	@echo "  make help       Display this help message"
 	@echo ""
 	@echo "Environment variables:"
@@ -164,6 +166,15 @@ release:
 		echo "✓ Released $$VERSION"; \
 	fi'
 	@true
+
+# Print the version currently set in the TOC
+version:
+	@awk -F': ' '/^## Version:/ { print $$2 }' $(TOC_FILE)
+
+# Remove build output
+clean:
+	@rm -rf $(DIST_DIR)
+	@echo "✓ Removed $(DIST_DIR)"
 
 # Catch-all so extra words after a target (e.g. "v1.0.0", "DRY") are treated as
 # arguments, not unknown make targets
