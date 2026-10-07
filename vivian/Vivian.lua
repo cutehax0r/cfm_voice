@@ -2,6 +2,7 @@
 local ADDON_NAME, ns = ...
 
 ns.RegisterVoicePack("vivian", "Vivian", {
+	{ name = "16s Countdown", file = "16s-countdown.mp3" },
 	{ name = "Adds", file = "adds.mp3" },
 	{ name = "Countdown", file = "countdown.mp3" },
 	{ name = "Danger", file = "danger.mp3" },
